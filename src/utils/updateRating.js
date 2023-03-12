@@ -88,29 +88,37 @@ module.exports = async (
       GuildUser.roles.remove(oldRole);
       GuildUser.roles.add(freshBloodRole);
     }
-    if (maxRating > 1600) {
+    if (maxRating >= 1600) {
       updateUser(client, id, newRating, oldRole, 40, winner, looser, match);
     }
   }
   if (newRating >= 1600 && newRating < 2000) {
-    updateUser(client, id, newRating, "Medium", 30, winner, looser);
-
     const mediumRole = getRole(interaction, "Medium");
     const oldRole = getRole(interaction, oldRank);
 
-    GuildUser.roles.remove(oldRole);
-    GuildUser.roles.add(mediumRole);
+    if (maxRating < 2000) {
+      updateUser(client, id, newRating, "Medium", 30, winner, looser, match);
+      GuildUser.roles.remove(oldRole);
+      GuildUser.roles.add(mediumRole);
+    }
+    if (maxRating >= 2000) {
+      updateUser(client, id, newRating, oldRole, 30, winner, looser, match);
+    }
   }
   if (newRating >= 2000 && newRating < 2400) {
-    updateUser(client, id, newRating, "Master", 20, winner, looser);
-
     const masterRole = getRole(interaction, "Master");
     const oldRole = getRole(interaction, oldRank);
 
-    GuildUser.roles.remove(oldRole);
-    GuildUser.roles.add(masterRole);
+    if (maxRating < 2400) {
+      updateUser(client, id, newRating, "Master", 20, winner, looser, match);
+      GuildUser.roles.remove(oldRole);
+      GuildUser.roles.add(masterRole);
+    }
+    if (maxRating >= 2400) {
+      updateUser(client, id, newRating, oldRole, 20, winner, looser, match);
+    }
   }
-  if (newRating > 2400) {
+  if (newRating >= 2400) {
     updateUser(client, id, newRating, "HighSkill", 10, winner, looser);
 
     const highSkillRole = getRole(interaction, "HighSkill");
