@@ -3,7 +3,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
 module.exports = {
   name: "clear",
   //deleted: true,
-  description: "Статистика пользователя",
+  description: "Удаление сообщений",
   //testOnly: true,
   devOnly: true,
   options: [
@@ -18,9 +18,10 @@ module.exports = {
     if (interaction.member.roles.cache.has("953667892216492063")) {
       const numberOfMessages = interaction.options.data[0].value;
       try {
-        interaction.channel.bulkDelete(numberOfMessages);
-        interaction.reply("Сообщения удалены");
-        interaction.deleteReply();
+        await interaction.deferReply();
+        interaction.channel.bulkDelete(numberOfMessages + 1, true)
+        await interaction.editReply('Сообщения удалены');
+        
       } catch (error) {
         console.log(error);
       }

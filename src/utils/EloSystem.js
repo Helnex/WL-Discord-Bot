@@ -104,12 +104,10 @@ module.exports = async (params, client, interaction) => {
       (average1 + average2) / 2
     )}`;
     const embedContent = `
-    Winner +${pointsForWinners}: <@${opponent1.userId}> (${
-      opponent1Rating + pointsForWinners
-    }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${
-      authorRating + pointsForLosers
-    }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
+    Winner +${pointsForWinners}: <@${opponent1.userId}> (${opponent1Rating + pointsForWinners
+      }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
+    Looser ${pointsForLosers}: <@${author.userId}> (${authorRating + pointsForLosers
+      }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
     `;
     // const embedContent = `
     // Winner (average: ${average2}) +${pointsForWinners}; <@${
@@ -132,7 +130,7 @@ module.exports = async (params, client, interaction) => {
       });
 
       client.channels
-        .fetch("1065291276594987048") //2x2-battle-logs
+        .fetch("1084396488932732939") //2x2-battle-logs
         .then((channel) => channel.send({ embeds: [embed] }))
         .catch(console.error);
     });
@@ -274,16 +272,12 @@ module.exports = async (params, client, interaction) => {
       (average1 + average2) / 2
     )}`;
     const embedContent = `
-    Winner +${pointsForWinners}: <@${opponent1.userId}> (${
-      opponent1Rating + pointsForWinners
-    }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${
-      opponent2.userId
-    }> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${
-      authorRating + pointsForLosers
-    }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${
-      teammate2.userId
-    }> (${teammate2Rating + pointsForLosers})
+    Winner +${pointsForWinners}: <@${opponent1.userId}> (${opponent1Rating + pointsForWinners
+      }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${opponent2.userId
+      }> (${opponent2Rating + pointsForWinners})
+    Looser ${pointsForLosers}: <@${author.userId}> (${authorRating + pointsForLosers
+      }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${teammate2.userId
+      }> (${teammate2Rating + pointsForLosers})
     `;
     // const embedContent = `
     // Winner: +${pointsForWinners};

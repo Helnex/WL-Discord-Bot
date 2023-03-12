@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const eventHandler = require("./handlers/eventHandler");
 //const { BattleLogsModel2v2 } = require("./models/2v2BattleLogsModel");
 const { UserModel } = require("./models/userModel");
-
+const keepAlive = require('../server')
 mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
@@ -50,3 +50,4 @@ client.Users = UserModel
 // });
 
 client.login(process.env.TOKEN);
+keepAlive()
