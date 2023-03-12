@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const eventHandler = require("./handlers/eventHandler");
 //const { BattleLogsModel2v2 } = require("./models/2v2BattleLogsModel");
 const { UserModel } = require("./models/userModel");
-const keepAlive = require('../server')
+const keepAlive = require("../server");
 mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
@@ -21,10 +21,8 @@ const client = new Client({
   ],
 });
 eventHandler(client);
-client.Users = UserModel
+client.Users = UserModel;
 //client.BattleLogs2v2 = BattleLogsModel2v2
-
-
 
 // client.on("messageCreate", (message) => {
 //   if (message.author.bot) {
@@ -50,4 +48,4 @@ client.Users = UserModel
 // });
 
 client.login(process.env.TOKEN);
-keepAlive()
+keepAlive();

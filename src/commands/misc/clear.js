@@ -19,9 +19,8 @@ module.exports = {
       const numberOfMessages = interaction.options.data[0].value;
       try {
         await interaction.deferReply();
-        interaction.channel.bulkDelete(numberOfMessages + 1, true)
-        await interaction.editReply('Сообщения удалены');
-        
+        interaction.channel.bulkDelete(numberOfMessages + 1, true);
+        await interaction.editReply("Сообщения удалены");
       } catch (error) {
         console.log(error);
       }
