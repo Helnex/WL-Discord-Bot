@@ -44,23 +44,28 @@ module.exports = {
   devOnly: true,
   //deleted: true,
   callback: async (client, interaction) => {
-    const embedTitle = interaction.options.data[0].value;
+    // const embedTitle = interaction.options.data[0].value;
     const subtitle = interaction.options.data[1].value;
-    const embedContent = interaction.options.data[2].value;
+    // const embedContent = interaction.options.data[2].value;
     const imageUrl = interaction.options.data[3]?.value;
 
-    const fields = [
-      { name: " ", value: subtitle, inline: true },
-      { name: " ", value: embedContent, inline: false },
-    ];
+    // const fields = [
+    //   { name: " ", value: subtitle, inline: true },
+    //   { name: " ", value: embedContent, inline: false },
+    // ];
+    const embedTitle = `1x1 Match. Average: ${Math.round((1748 + 1699) / 2)}`;
+    const embedContent = `
+    Winner +${20}: <@465556354460024845> (1748), <@870384618380083230> (1768)
+    Looser ${-10}: <@870384618380083230> (1699), <@465474458635993099> (1678)
+    `;
     createEmbed(
       client,
       interaction,
       interaction.member.user.username,
       interaction.member.user.avatarURL(),
       embedTitle,
-      " ",
-      fields,
+      embedContent,
+      // " ",
       imageUrl
     ).then(async (embed) => {
       await interaction.reply({

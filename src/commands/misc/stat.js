@@ -6,7 +6,7 @@ module.exports = {
   //deleted: true,
   description: "Статистика пользователя",
   //testOnly: true,
-  devOnly: true,
+  //devOnly: true,
   options: [
     {
       name: "target-user",

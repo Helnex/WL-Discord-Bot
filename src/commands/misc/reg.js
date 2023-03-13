@@ -47,13 +47,14 @@ module.exports = {
       ); //941403904132919307 - создание профиля
     } else {
       if (
+        interaction.options.data[1].value.length > 10 ||
         interaction.options.data[1].value.length < 3 ||
         interaction.options.data[1].value.includes(" ") ||
         interaction.options.data[1].value.match(/[a-zA-Z]/g).length !=
           interaction.options.data[1].value.length
       ) {
         interaction.reply(
-          "Никнейм слишком короткий и/или содержит недопустимые символы"
+          "Никнейм слишком короткий или длинный и/или содержит недопустимые символы"
         );
       } else {
         const data = interaction.options.data;
