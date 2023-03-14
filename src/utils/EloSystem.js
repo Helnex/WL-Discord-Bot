@@ -104,10 +104,12 @@ module.exports = async (params, client, interaction) => {
       (average1 + average2) / 2
     )}`;
     const embedContent = `
-    Winner +${pointsForWinners}: <@${opponent1.userId}> (${opponent1Rating + pointsForWinners
-      }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${authorRating + pointsForLosers
-      }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
+    Winner +${pointsForWinners}: <@${opponent1.userId}> (${
+      opponent1Rating + pointsForWinners
+    }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
+    Looser ${pointsForLosers}: <@${author.userId}> (${
+      authorRating + pointsForLosers
+    }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
     `;
     // const embedContent = `
     // Winner (average: ${average2}) +${pointsForWinners}; <@${
@@ -131,6 +133,10 @@ module.exports = async (params, client, interaction) => {
 
       client.channels
         .fetch("1084396488932732939") //2x2-battle-logs
+        .then((channel) => channel.send({ embeds: [embed] }))
+        .catch(console.error);
+      client.channels
+        .fetch("1085205314120454204") //2x2-all-battle-logs
         .then((channel) => channel.send({ embeds: [embed] }))
         .catch(console.error);
     });
@@ -272,12 +278,16 @@ module.exports = async (params, client, interaction) => {
       (average1 + average2) / 2
     )}`;
     const embedContent = `
-    Winner +${pointsForWinners}: <@${opponent1.userId}> (${opponent1Rating + pointsForWinners
-      }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${opponent2.userId
-      }> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${authorRating + pointsForLosers
-      }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${teammate2.userId
-      }> (${teammate2Rating + pointsForLosers})
+    Winner +${pointsForWinners}: <@${opponent1.userId}> (${
+      opponent1Rating + pointsForWinners
+    }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${
+      opponent2.userId
+    }> (${opponent2Rating + pointsForWinners})
+    Looser ${pointsForLosers}: <@${author.userId}> (${
+      authorRating + pointsForLosers
+    }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${
+      teammate2.userId
+    }> (${teammate2Rating + pointsForLosers})
     `;
     // const embedContent = `
     // Winner: +${pointsForWinners};
@@ -301,6 +311,10 @@ module.exports = async (params, client, interaction) => {
 
       client.channels
         .fetch("1082323134121779212") //3x3-battle-logs
+        .then((channel) => channel.send({ embeds: [embed] }))
+        .catch(console.error);
+      client.channels
+        .fetch("1085217240972021861") //3x3-all-battle-logs
         .then((channel) => channel.send({ embeds: [embed] }))
         .catch(console.error);
     });

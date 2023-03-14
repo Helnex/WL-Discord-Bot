@@ -7,14 +7,26 @@ module.exports = {
   //deleted: true,
   description: "Вся статистика на основе сохраненных боев",
   //testOnly: true,
-  //devOnly: true,
+  devOnly: true,
   callback: async (client, interaction) => {
-    const finallyUsers = [];
-    let content = `top 50 players for March
+    const top50ForWeak = [];
+    const top50ForMonth = [];
+    const byField = (field) => {
+      return (a, b) => (a[field] < b[field] ? 1 : -1);
+    };
+    let message1Title = `top 50 players for weak`;
+    let message1 = `${message1Title}
+------------------------------------------------------------------
+#    Player          Rating  Games     Win       Lose      Winrate
+------------------------------------------------------------------\n`;
+
+    let message2Title = `top 50 players for all time`;
+    let message2 = `${message2Title}
 ------------------------------------------------------------------
 #    Player          Rating  Games     Win       Lose      Winrate
 ------------------------------------------------------------------\n`;
     //2x2
+    //battle logs from weak
     await client.channels.fetch("1065291276594987048").then(async (channel) => {
       await channel.messages.fetch().then(async (messages) => {
         const Wusers = [];
@@ -66,15 +78,19 @@ module.exports = {
             .members.fetch(String(secondWinnerId));
 
           if (
-            !finallyUsers.find(
+            !top50ForWeak.find(
               (item) => parseInt(firstWinnerId) == parseInt(item.userId)
             )
           ) {
-            finallyUsers.push({
+            const { rating2v2 } = await client.Users.findOne({
+              userId: firstWinnerId,
+            });
+            top50ForWeak.push({
               userId: firstWinnerId,
               userName: guildfirstWinner.user.username,
               win: parseInt(firstWinnerVictories),
               lose: parseInt(firstWinnerDefeats),
+              rating: rating2v2,
               winrate: Math.round(
                 (parseInt(firstWinnerVictories) /
                   (firstWinnerDefeats + firstWinnerVictories)) *
@@ -83,15 +99,19 @@ module.exports = {
             });
           }
           if (
-            !finallyUsers.find(
+            !top50ForWeak.find(
               (item) => parseInt(secondWinnerId) == parseInt(item.userId)
             )
           ) {
-            finallyUsers.push({
+            const { rating2v2 } = await client.Users.findOne({
+              userId: secondWinnerId,
+            });
+            top50ForWeak.push({
               userId: secondWinnerId,
               userName: guildSecondWinner.user.username,
               win: parseInt(secondWinnerVictories),
               lose: parseInt(secondWinnerDefeats),
+              rating: rating2v2,
               winrate: Math.round(
                 (parseInt(secondWinnerVictories) /
                   (secondWinnerDefeats + secondWinnerVictories)) *
@@ -101,21 +121,22 @@ module.exports = {
           }
         }
       });
+      top50ForWeak.sort(byField("rating"));
       let i;
       for (i = 0; i <= 50; i++) {
-        if (finallyUsers[i]) {
+        if (top50ForWeak[i]) {
           let space = " ";
-          const userName = finallyUsers[i].userName;
+          const userName = top50ForWeak[i].userName;
           const { rating2v2 } = await client.Users.findOne({
-            userId: finallyUsers[i].userId,
+            userId: top50ForWeak[i].userId,
           });
 
-          const games = String(finallyUsers[i].win + finallyUsers[i].lose);
-          const win = String(finallyUsers[i].win);
-          const lose = String(finallyUsers[i].lose);
-          const winrate = String(finallyUsers[i].winrate);
+          const games = String(top50ForWeak[i].win + top50ForWeak[i].lose);
+          const win = String(top50ForWeak[i].win);
+          const lose = String(top50ForWeak[i].lose);
+          const winrate = String(top50ForWeak[i].winrate);
 
-          content += `${i + 1}    ${
+          message1 += `${i + 1}    ${
             userName + space.repeat(16 - userName.length)
           }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${
             games + space.repeat(10 - games.length)
@@ -125,16 +146,136 @@ module.exports = {
         }
       }
     });
+    //battle logs from month
+    await client.channels.fetch("1085205314120454204").then(async (channel) => {
+      await channel.messages.fetch().then(async (messages) => {
+        const Wusers = [];
+        const lusers = [];
+        for (message of messages) {
+          const msg = message[1].embeds[0].description.split("\n");
 
-    const byField = (field) => {
-      return (a, b) => (a[field] < b[field] ? 1 : -1);
-    };
+          const strW = msg[0];
+          const strL = msg[1];
+          lusers.push(strL);
+          Wusers.push(strW);
+        }
+        for (message of messages) {
+          const msg = message[1].embeds[0].description.split("\n");
 
-    finallyUsers.sort(byField("win"));
+          const strW = msg[0];
+          const firstWinner = strW.match(/<@..................>/g)[0];
+          const secondWinner = strW.match(/<@..................>/g)[1];
 
+          let firstWinnerVictories = 0;
+          let firstWinnerDefeats = 0;
+          let secondWinnerVictories = 0;
+          let secondWinnerDefeats = 0;
+
+          for (user of Wusers) {
+            if (user.includes(firstWinner)) {
+              firstWinnerVictories += 1;
+            }
+            if (user.includes(secondWinner)) {
+              secondWinnerVictories += 1;
+            }
+          }
+          for (user of lusers) {
+            if (user.includes(firstWinner)) {
+              firstWinnerDefeats += 1;
+            }
+            if (user.includes(secondWinner)) {
+              secondWinnerDefeats += 1;
+            }
+          }
+          const firstWinnerId = firstWinner.slice(2, -1);
+          const secondWinnerId = secondWinner.slice(2, -1);
+
+          const guildfirstWinner = await client.guilds.cache
+            .get("941349087905738832")
+            .members.fetch(String(firstWinnerId));
+          const guildSecondWinner = await client.guilds.cache
+            .get("941349087905738832")
+            .members.fetch(String(secondWinnerId));
+
+          if (
+            !top50ForMonth.find(
+              (item) => parseInt(firstWinnerId) == parseInt(item.userId)
+            )
+          ) {
+            console.log(firstWinnerId);
+            const { rating2v2 } = await client.Users.findOne({
+              userId: firstWinnerId,
+            });
+            top50ForMonth.push({
+              userId: firstWinnerId,
+              userName: guildfirstWinner.user.username,
+              win: parseInt(firstWinnerVictories),
+              lose: parseInt(firstWinnerDefeats),
+              rating: rating2v2,
+              winrate: Math.round(
+                (parseInt(firstWinnerVictories) /
+                  (firstWinnerDefeats + firstWinnerVictories)) *
+                  100
+              ),
+            });
+          }
+          if (
+            !top50ForMonth.find(
+              (item) => parseInt(secondWinnerId) == parseInt(item.userId)
+            )
+          ) {
+            console.log(secondWinnerId);
+            const { rating2v2 } = await client.Users.findOne({
+              userId: secondWinnerId,
+            });
+            top50ForMonth.push({
+              userId: secondWinnerId,
+              userName: guildSecondWinner.user.username,
+              win: parseInt(secondWinnerVictories),
+              lose: parseInt(secondWinnerDefeats),
+              rating: rating2v2,
+              winrate: Math.round(
+                (parseInt(secondWinnerVictories) /
+                  (secondWinnerDefeats + secondWinnerVictories)) *
+                  100
+              ),
+            });
+          }
+        }
+      });
+      top50ForMonth.sort(byField("rating"));
+      let i;
+      for (i = 0; i <= 50; i++) {
+        if (top50ForMonth[i]) {
+          console.log(top50ForMonth[i]);
+          let space = " ";
+          const userName = top50ForMonth[i].userName;
+          const { rating2v2 } = await client.Users.findOne({
+            userId: top50ForMonth[i].userId,
+          });
+
+          const games = String(top50ForMonth[i].win + top50ForMonth[i].lose);
+          const win = String(top50ForMonth[i].win);
+          const lose = String(top50ForMonth[i].lose);
+          const winrate = String(top50ForMonth[i].winrate);
+
+          message2 += `${i + 1}    ${
+            userName + space.repeat(16 - userName.length)
+          }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${
+            games + space.repeat(10 - games.length)
+          }${win + space.repeat(10 - win.length)}${
+            lose + space.repeat(10 - lose.length)
+          }${winrate + "%"}\n`;
+        }
+      }
+    });
     client.channels
       .fetch("1084764891233140756") //2x2-statistics
-      .then((channel) => channel.send(codeBlock(content)))
+      .then((channel) => channel.send(codeBlock(message1)))
+      .catch(console.error);
+    client.channels
+      .fetch("1085204771146838106") //2x2-all-statistics
+      .then((channel) => channel.send(codeBlock(message2)))
       .catch(console.error);
     await interaction.reply("Готово");
     await interaction.deleteReply();
