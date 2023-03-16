@@ -64,7 +64,7 @@ module.exports = {
       interaction.member.user.username,
       interaction.member.user.avatarURL(),
       embedTitle,
-      ' ',
+      " ",
       fields,
       imageUrl
     ).then(async (embed) => {
