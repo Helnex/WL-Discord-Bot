@@ -51,49 +51,56 @@ module.exports = {
         interaction.options.data[1].value.length < 3 ||
         interaction.options.data[1].value.includes(" ") ||
         interaction.options.data[1].value.match(/[a-zA-Z]/g).length !=
-          interaction.options.data[1].value.length
+        interaction.options.data[1].value.length
       ) {
         interaction.reply(
           "Никнейм слишком короткий или длинный и/или содержит недопустимые символы"
         );
       } else {
-        const data = interaction.options.data;
-        const gameServer = data[0].value;
-        const nickname = data[1].value;
-        authorId = interaction.user.id;
+        try {
+          const data = interaction.options.data;
+          const gameServer = data[0].value;
+          const nickname = data[1].value;
+          authorId = interaction.user.id;
 
-        const user = await client.Users.findOne({ userId: authorId });
-        if (user == null) {
-          const newUser = new client.Users({
-            server: gameServer,
-            nickname: nickname,
-            userId: authorId,
-            rating2v2: 1200,
-            rating3v3: 1200,
-            rank: "FreshBlood",
-            k2v2: 40,
-            k3v3: 40,
-            defeats2v2: 0,
-            victories2v2: 0,
-            winrate2v2: 0,
-            defeats3v3: 0,
-            victories3v3: 0,
-            winrate3v3: 0,
-          });
-          newUser.save();
+          const user = await client.Users.findOne({ userId: authorId });
+          if (user == null) {
+            const newUser = new client.Users({
+              server: gameServer,
+              nickname: nickname,
+              userId: authorId,
+              rating2v2: 1200,
+              rating3v3: 1200,
+              rank: "FreshBlood",
+              k2v2: 40,
+              k3v3: 40,
+              defeats2v2: 0,
+              victories2v2: 0,
+              winrate2v2: 0,
+              defeats3v3: 0,
+              victories3v3: 0,
+              winrate3v3: 0,
+            });
+            newUser.save();
 
-          const FreshBloodRole = getGuildRole(interaction, "FreshBlood");
-          const ServerRole = getGuildRole(interaction, gameServer);
-          const StartRole = getGuildRole(interaction, "беспартийный");
-          const GuildUser = interaction.guild.members.cache.get(authorId);
+            const FreshBloodRole = getGuildRole(interaction, "FreshBlood");
+            const ServerRole = getGuildRole(interaction, gameServer);
+            const StartRole = getGuildRole(interaction, "беспартийный");
+            const GuildUser = interaction.guild.members.cache.get(authorId);
 
-          GuildUser.roles.add(FreshBloodRole);
-          GuildUser.roles.add(ServerRole);
-          GuildUser.roles.remove(StartRole);
-          interaction.reply("Регистрация прошла успешно");
-        } else {
-          interaction.reply("Вы уже зарегистрированы"); //если пользователь при выходе с сервера будет стираться из бд, то это не нужно
+            await GuildUser.roles.add(FreshBloodRole);
+            await GuildUser.roles.add(ServerRole);
+            await GuildUser.setNickname(nickname)
+            await interaction.reply("Регистрация прошла успешно");
+            await GuildUser.roles.remove(StartRole);
+          } else {
+            interaction.reply("Вы уже зарегистрированы"); //если пользователь при выходе с сервера будет стираться из бд, то это не нужно
+          }
+        } catch (error) {
+          console.log(error)
+          interaction.reply('Произошла ошибка')
         }
+
       }
     }
   },

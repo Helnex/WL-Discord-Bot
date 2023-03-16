@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const EloSystem = require("../../utils/EloSystem");
-const isUserRegistered = require("../../utils/isUserRegistered");
+// const isUserRegistered = require("../../utils/isUserRegistered");
 
 module.exports = {
   name: "b2",
@@ -30,20 +30,26 @@ module.exports = {
   //devOnly: true,
   //deleted: boolean
   callback: async (client, interaction) => {
+    await interaction.reply('В процессе...');
     const authorId = interaction.member.id;
-    const opponent1Id = interaction.options.data[0].user.id;
-    const opponent2Id = interaction.options.data[1].user.id;
-    const teammateId = interaction.options.data[2].user.id;
+    const opponent1Id = interaction.options.data[0].user?.id;
+    const opponent2Id = interaction.options.data[1].user?.id;
+    const teammateId = interaction.options.data[2].user?.id;
+
+    const author = await client.Users.findOne({ userId: authorId });
+    const opponent1 = await client.Users.findOne({ userId: opponent1Id });
+    const opponent2 = await client.Users.findOne({ userId: opponent2Id });
+    const teammate = await client.Users.findOne({ userId: teammateId });
 
     const isHasDuplicates = (arr) => {
       return new Set(arr).size !== arr.length;
     };
 
     if (
-      isUserRegistered(client, authorId) &&
-      isUserRegistered(client, opponent1Id) &&
-      isUserRegistered(client, opponent2Id) &&
-      isUserRegistered(client, teammateId) &&
+      author != null &&
+      opponent1 != null &&
+      opponent2 != null &&
+      teammate != null &&
       !isHasDuplicates([authorId, opponent1Id, opponent2Id, teammateId])
     ) {
       EloSystem(

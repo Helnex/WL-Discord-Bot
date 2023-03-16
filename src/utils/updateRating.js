@@ -26,18 +26,18 @@ module.exports = async (
       const user = await client.Users.findOne({ userId: id });
       const newDefeats = user.defeats2v2 + looser;
       const newVictories = user.victories2v2 + winner;
+
       const newWinrate = Math.round(
-        ((user.victories2v2 + winner) /
-          (user.defeats2v2 + looser + user.victories2v2)) *
-          100
+        ((user.victories2v2 + winner) / (user.victories2v2 + winner + user.defeats2v2 + looser)) * 100
       );
+
       await client.Users.updateOne(
         { userId: id },
         {
           $set: {
             rating2v2: rating,
             rank: rank,
-            k: k,
+            k2v2: k,
             defeats2v2: newDefeats,
             victories2v2: newVictories,
             winrate2v2: newWinrate,
@@ -52,7 +52,7 @@ module.exports = async (
       const newWinrate = Math.round(
         ((user.victories3v3 + winner) /
           (user.defeats3v3 + looser + user.victories3v3)) *
-          100
+        100
       );
       await client.Users.updateOne(
         { userId: id },
@@ -60,7 +60,7 @@ module.exports = async (
           $set: {
             rating3v3: rating,
             rank: rank,
-            k: k,
+            k3v3: k,
             defeats3v3: newDefeats,
             victories3v3: newVictories,
             winrate3v3: newWinrate,
@@ -70,10 +70,10 @@ module.exports = async (
     }
   };
   const GuildUser = interaction.guild.members.cache.get(id);
-
   if (newRating < 1600) {
     const freshBloodRole = getRole(interaction, "FreshBlood");
     const oldRole = getRole(interaction, oldRank);
+
     if (maxRating < 1600) {
       updateUser(
         client,
@@ -111,8 +111,11 @@ module.exports = async (
 
     if (maxRating < 2400) {
       updateUser(client, id, newRating, "Master", 20, winner, looser, match);
-      GuildUser.roles.remove(oldRole);
-      GuildUser.roles.add(masterRole);
+      GuildUser.roles.remove(oldRole)
+        .then(e => {
+          GuildUser.roles.add(masterRole)
+        })
+
     }
     if (maxRating >= 2400) {
       updateUser(client, id, newRating, oldRole, 20, winner, looser, match);

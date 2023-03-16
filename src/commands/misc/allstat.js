@@ -9,6 +9,7 @@ module.exports = {
   //testOnly: true,
   devOnly: true,
   callback: async (client, interaction) => {
+    await interaction.reply("В процессе...");
     const top50ForWeak = [];
     const top50ForMonth = [];
     const byField = (field) => {
@@ -76,25 +77,30 @@ module.exports = {
           const guildSecondWinner = await client.guilds.cache
             .get("941349087905738832")
             .members.fetch(String(secondWinnerId));
-
+          // console.log(await client.guilds.cache
+          //   .get("941349087905738832")
+          //   .members.fetch(String(firstWinnerId)))
+          // console.log(guildfirstWinner)
           if (
             !top50ForWeak.find(
               (item) => parseInt(firstWinnerId) == parseInt(item.userId)
             )
           ) {
+            // console.log(guildfirstWinner.user)
+            // console.log(guildSecondWinner.user)
             const { rating2v2 } = await client.Users.findOne({
               userId: firstWinnerId,
             });
             top50ForWeak.push({
               userId: firstWinnerId,
-              userName: guildfirstWinner.user.username,
+              userName: guildfirstWinner.nickname,
               win: parseInt(firstWinnerVictories),
               lose: parseInt(firstWinnerDefeats),
               rating: rating2v2,
               winrate: Math.round(
                 (parseInt(firstWinnerVictories) /
                   (firstWinnerDefeats + firstWinnerVictories)) *
-                  100
+                100
               ),
             });
           }
@@ -108,20 +114,21 @@ module.exports = {
             });
             top50ForWeak.push({
               userId: secondWinnerId,
-              userName: guildSecondWinner.user.username,
+              userName: guildSecondWinner.nickname,
               win: parseInt(secondWinnerVictories),
               lose: parseInt(secondWinnerDefeats),
               rating: rating2v2,
               winrate: Math.round(
                 (parseInt(secondWinnerVictories) /
                   (secondWinnerDefeats + secondWinnerVictories)) *
-                  100
+                100
               ),
             });
           }
         }
       });
       top50ForWeak.sort(byField("rating"));
+
       let i;
       for (i = 0; i <= 50; i++) {
         if (top50ForWeak[i]) {
@@ -135,14 +142,10 @@ module.exports = {
           const win = String(top50ForWeak[i].win);
           const lose = String(top50ForWeak[i].lose);
           const winrate = String(top50ForWeak[i].winrate);
-
-          message1 += `${i + 1}    ${
-            userName + space.repeat(16 - userName.length)
-          }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${
-            games + space.repeat(10 - games.length)
-          }${win + space.repeat(10 - win.length)}${
-            lose + space.repeat(10 - lose.length)
-          }${winrate + "%"}\n`;
+          message1 += `${i + 1}    ${userName + space.repeat(16 - userName.length)
+            }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${games + space.repeat(10 - games.length)
+            }${win + space.repeat(10 - win.length)}${lose + space.repeat(10 - lose.length)
+            }${winrate + "%"}\n`;
         }
       }
     });
@@ -202,20 +205,19 @@ module.exports = {
               (item) => parseInt(firstWinnerId) == parseInt(item.userId)
             )
           ) {
-            console.log(firstWinnerId);
             const { rating2v2 } = await client.Users.findOne({
               userId: firstWinnerId,
             });
             top50ForMonth.push({
               userId: firstWinnerId,
-              userName: guildfirstWinner.user.username,
+              userName: guildfirstWinner.nickname,
               win: parseInt(firstWinnerVictories),
               lose: parseInt(firstWinnerDefeats),
               rating: rating2v2,
               winrate: Math.round(
                 (parseInt(firstWinnerVictories) /
                   (firstWinnerDefeats + firstWinnerVictories)) *
-                  100
+                100
               ),
             });
           }
@@ -224,30 +226,29 @@ module.exports = {
               (item) => parseInt(secondWinnerId) == parseInt(item.userId)
             )
           ) {
-            console.log(secondWinnerId);
             const { rating2v2 } = await client.Users.findOne({
               userId: secondWinnerId,
             });
             top50ForMonth.push({
               userId: secondWinnerId,
-              userName: guildSecondWinner.user.username,
+              userName: guildSecondWinner.nickname,
               win: parseInt(secondWinnerVictories),
               lose: parseInt(secondWinnerDefeats),
               rating: rating2v2,
               winrate: Math.round(
                 (parseInt(secondWinnerVictories) /
                   (secondWinnerDefeats + secondWinnerVictories)) *
-                  100
+                100
               ),
             });
           }
         }
       });
       top50ForMonth.sort(byField("rating"));
+
       let i;
       for (i = 0; i <= 50; i++) {
         if (top50ForMonth[i]) {
-          console.log(top50ForMonth[i]);
           let space = " ";
           const userName = top50ForMonth[i].userName;
           const { rating2v2 } = await client.Users.findOne({
@@ -259,13 +260,10 @@ module.exports = {
           const lose = String(top50ForMonth[i].lose);
           const winrate = String(top50ForMonth[i].winrate);
 
-          message2 += `${i + 1}    ${
-            userName + space.repeat(16 - userName.length)
-          }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${
-            games + space.repeat(10 - games.length)
-          }${win + space.repeat(10 - win.length)}${
-            lose + space.repeat(10 - lose.length)
-          }${winrate + "%"}\n`;
+          message2 += `${i + 1}    ${userName + space.repeat(16 - userName.length)
+            }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${games + space.repeat(10 - games.length)
+            }${win + space.repeat(10 - win.length)}${lose + space.repeat(10 - lose.length)
+            }${winrate + "%"}\n`;
         }
       }
     });
@@ -277,7 +275,7 @@ module.exports = {
       .fetch("1085204771146838106") //2x2-all-statistics
       .then((channel) => channel.send(codeBlock(message2)))
       .catch(console.error);
-    await interaction.reply("Готово");
+    await interaction.editReply("Готово");
     await interaction.deleteReply();
   },
 };

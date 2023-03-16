@@ -39,7 +39,7 @@ module.exports = {
     },
   ],
   //testOnly: true,
-  //devOnly: true,
+  devOnly: true,
   //deleted: boolean
   callback: async (client, interaction) => {
     const authorId = interaction.member.id;

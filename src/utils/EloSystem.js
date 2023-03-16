@@ -50,7 +50,7 @@ module.exports = async (params, client, interaction) => {
       params.opponent1Id,
       opponent1Rating + pointsForWinners,
       opponent1Rating,
-      Math.max(opponent1.rating2v2, opponent1.rating3v3),
+      Math.max(opponent1Rating + pointsForWinners, opponent1.rating3v3),
       // pointsForWinners,
       interaction,
       opponent1.rank,
@@ -63,7 +63,7 @@ module.exports = async (params, client, interaction) => {
       params.opponent2Id,
       opponent2Rating + pointsForWinners,
       opponent2Rating,
-      Math.max(opponent2.rating2v2, opponent2.rating3v3),
+      Math.max(opponent2Rating + pointsForWinners, opponent2.rating3v3),
       // pointsForWinners,
       interaction,
       opponent2.rank,
@@ -78,7 +78,7 @@ module.exports = async (params, client, interaction) => {
       params.authorId,
       authorRating + pointsForLosers,
       authorRating,
-      Math.max(author.rating2v2, author.rating3v3),
+      Math.max(authorRating + pointsForLosers, author.rating3v3),
       // pointsForLosers,
       interaction,
       author.rank,
@@ -86,12 +86,13 @@ module.exports = async (params, client, interaction) => {
       1,
       "2v2"
     );
+
     updateRating(
       client,
       params.teammateId,
       teammateRating + pointsForLosers,
       teammateRating,
-      Math.max(teammate.rating2v2, teammate.rating3v3),
+      Math.max(teammateRating + pointsForLosers, teammate.rating3v3),
       // pointsForLosers,
       interaction,
       teammate.rank,
@@ -104,12 +105,10 @@ module.exports = async (params, client, interaction) => {
       (average1 + average2) / 2
     )}`;
     const embedContent = `
-    Winner +${pointsForWinners}: <@${opponent1.userId}> (${
-      opponent1Rating + pointsForWinners
-    }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${
-      authorRating + pointsForLosers
-    }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
+    Winner +${pointsForWinners}: <@${opponent1.userId}> (${opponent1Rating + pointsForWinners
+      }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
+    Looser ${pointsForLosers}: <@${author.userId}> (${authorRating + pointsForLosers
+      }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
     `;
     // const embedContent = `
     // Winner (average: ${average2}) +${pointsForWinners}; <@${
@@ -127,12 +126,12 @@ module.exports = async (params, client, interaction) => {
       embedTitle,
       embedContent
     ).then(async (embed) => {
-      await interaction.reply({
+      await interaction.followUp({
         embeds: [embed],
       });
 
       client.channels
-        .fetch("1084396488932732939") //2x2-battle-logs
+        .fetch("1065291276594987048") //2x2-battle-logs
         .then((channel) => channel.send({ embeds: [embed] }))
         .catch(console.error);
       client.channels
@@ -198,7 +197,7 @@ module.exports = async (params, client, interaction) => {
       params.opponent1Id,
       opponent1Rating + pointsForWinners,
       opponent1Rating,
-      Math.max(opponent1.rating2v2, opponent1.rating3v3),
+      Math.max(opponent1.rating2v2, opponent1Rating + pointsForWinners),
       // pointsForWinners,
       interaction,
       opponent1.rank,
@@ -211,7 +210,7 @@ module.exports = async (params, client, interaction) => {
       params.opponent2Id,
       opponent2Rating + pointsForWinners,
       opponent2Rating,
-      Math.max(opponent2.rating2v2, opponent2.rating3v3),
+      Math.max(opponent2.rating2v2, opponent2Rating + pointsForWinners),
       // pointsForWinners,
       interaction,
       opponent2.rank,
@@ -224,7 +223,7 @@ module.exports = async (params, client, interaction) => {
       params.opponent3Id,
       opponent3Rating + pointsForWinners,
       opponent3Rating,
-      Math.max(opponent3.rating2v2, opponent3.rating3v3),
+      Math.max(opponent3.rating2v2, opponent3Rating + pointsForWinners),
       // pointsForWinners,
       interaction,
       opponent3.rank,
@@ -239,7 +238,7 @@ module.exports = async (params, client, interaction) => {
       params.authorId,
       authorRating + pointsForLosers,
       authorRating,
-      Math.max(author.rating2v2, author.rating3v3),
+      Math.max(author.rating2v2, authorRating + pointsForLosers),
       // pointsForLosers,
       interaction,
       author.rank,
@@ -252,7 +251,7 @@ module.exports = async (params, client, interaction) => {
       params.teammate1Id,
       teammate1Rating + pointsForLosers,
       teammate1Rating,
-      Math.max(teammate1.rating2v2, teammate1.rating3v3),
+      Math.max(teammate1.rating2v2, teammate1Rating + pointsForLosers),
       // pointsForLosers,
       interaction,
       teammate1.rank,
@@ -265,7 +264,7 @@ module.exports = async (params, client, interaction) => {
       params.teammate2Id,
       teammate2Rating + pointsForLosers,
       teammate2Rating,
-      Math.max(teammate2.rating2v2, teammate2.rating3v3),
+      Math.max(teammate2.rating2v2, teammate2Rating + pointsForLosers),
       // pointsForLosers,
       interaction,
       teammate2.rank,
@@ -278,16 +277,12 @@ module.exports = async (params, client, interaction) => {
       (average1 + average2) / 2
     )}`;
     const embedContent = `
-    Winner +${pointsForWinners}: <@${opponent1.userId}> (${
-      opponent1Rating + pointsForWinners
-    }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${
-      opponent2.userId
-    }> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${
-      authorRating + pointsForLosers
-    }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${
-      teammate2.userId
-    }> (${teammate2Rating + pointsForLosers})
+    Winner +${pointsForWinners}: <@${opponent1.userId}> (${opponent1Rating + pointsForWinners
+      }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${opponent2.userId
+      }> (${opponent2Rating + pointsForWinners})
+    Looser ${pointsForLosers}: <@${author.userId}> (${authorRating + pointsForLosers
+      }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${teammate2.userId
+      }> (${teammate2Rating + pointsForLosers})
     `;
     // const embedContent = `
     // Winner: +${pointsForWinners};
@@ -305,7 +300,7 @@ module.exports = async (params, client, interaction) => {
       embedTitle,
       embedContent
     ).then(async (embed) => {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [embed],
       });
 

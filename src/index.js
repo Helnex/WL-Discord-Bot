@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, IntentsBitField } = require("discord.js");
+const { Client, IntentsBitField, GatewayIntentBits } = require("discord.js");
 const mongoose = require("mongoose");
 const eventHandler = require("./handlers/eventHandler");
 //const { BattleLogsModel2v2 } = require("./models/2v2BattleLogsModel");
@@ -18,21 +18,21 @@ const client = new Client({
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
+    GatewayIntentBits.GuildPresences
   ],
 });
 eventHandler(client);
 client.Users = UserModel;
 //client.BattleLogs2v2 = BattleLogsModel2v2
 
-// client.on("messageCreate", (message) => {
-//   if (message.author.bot) {
-//     return;
-//   }
-
-//   if (message.content === "hello") {
-//     message.reply("hey");
-//   }
-// });
+client.on("messageCreate", (message) => {
+  if (message.author.bot) {
+    return;
+  }
+  if (message.channelId === "941407661147172945") {
+    message.reply(message.content);
+  }
+});
 
 // client.Users = UserModel
 
