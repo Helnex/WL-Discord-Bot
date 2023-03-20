@@ -19,6 +19,7 @@ module.exports = {
     const targetUserId = interaction.options.data[0].user?.id;
 
     const targetUser = await client.Users.findOne({ userId: targetUserId });
+
     if (targetUser) {
       const embedTitle = `${targetUser.nickname} statistics`;
       const embedContent1 = `
