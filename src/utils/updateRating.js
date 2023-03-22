@@ -22,13 +22,38 @@ module.exports = async (
     looser,
     match
   ) => {
+    if (match === "1v1") {
+      const user = await client.Users.findOne({ userId: id });
+      const newDefeats = (user.defeats1v1 ? user.defeats1v1 : 0) + looser;
+      const newVictories = (user.victories1v1 ? user.victories1v1 : 0) + winner;
+
+      const newWinrate = Math.round(
+        (newVictories / (newVictories + newDefeats)) * 100
+      );
+
+      await client.Users.updateOne(
+        { userId: id },
+        {
+          $set: {
+            rating1v1: rating,
+            rank: rank,
+            k1v1: k,
+            defeats1v1: newDefeats,
+            victories1v1: newVictories,
+            winrate1v1: newWinrate,
+          },
+        }
+      );
+    }
     if (match === "2v2") {
       const user = await client.Users.findOne({ userId: id });
       const newDefeats = user.defeats2v2 + looser;
       const newVictories = user.victories2v2 + winner;
 
       const newWinrate = Math.round(
-        ((user.victories2v2 + winner) / (user.victories2v2 + winner + user.defeats2v2 + looser)) * 100
+        ((user.victories2v2 + winner) /
+          (user.victories2v2 + winner + user.defeats2v2 + looser)) *
+          100
       );
 
       await client.Users.updateOne(
@@ -52,7 +77,7 @@ module.exports = async (
       const newWinrate = Math.round(
         ((user.victories3v3 + winner) /
           (user.defeats3v3 + looser + user.victories3v3)) *
-        100
+          100
       );
       await client.Users.updateOne(
         { userId: id },
@@ -111,11 +136,9 @@ module.exports = async (
 
     if (maxRating < 2400) {
       updateUser(client, id, newRating, "Master", 20, winner, looser, match);
-      GuildUser.roles.remove(oldRole)
-        .then(e => {
-          GuildUser.roles.add(masterRole)
-        })
-
+      GuildUser.roles.remove(oldRole).then((e) => {
+        GuildUser.roles.add(masterRole);
+      });
     }
     if (maxRating >= 2400) {
       updateUser(client, id, newRating, oldRole, 20, winner, looser, match);

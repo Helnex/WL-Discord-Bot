@@ -23,18 +23,25 @@ module.exports = {
     if (targetUser) {
       const embedTitle = `${targetUser.nickname} statistics`;
       const embedContent1 = `
+      Rating: ${targetUser.rating1v1 ? targetUser.rating1v1 : 1200}
+      Defeats: ${targetUser.defeats1v1 ? targetUser.defeats1v1 : 0}
+      Victories: ${targetUser.victories1v1 ? targetUser.victories1v1 : 0}
+      Winrate: ${targetUser.winrate1v1 ? targetUser.winrate1v1 : 0}%
+      `;
+      const embedContent2 = `
       Rating: ${targetUser.rating2v2}
       Defeats: ${targetUser.defeats2v2}
       Victories: ${targetUser.victories2v2}
       Winrate: ${targetUser.winrate2v2}%
       `;
-      const embedContent2 = `
+      const embedContent3 = `
       Rating: ${targetUser.rating3v3}
       Defeats: ${targetUser.defeats3v3}
       Victories: ${targetUser.victories3v3}
       Winrate: ${targetUser.winrate3v3}%
       `;
       const fields = [
+        { name: "1v1", value: embedContent1, inline: true },
         { name: "2v2", value: embedContent1, inline: true },
         { name: "3v3", value: embedContent2, inline: true },
       ];
