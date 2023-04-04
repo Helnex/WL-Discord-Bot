@@ -14,12 +14,14 @@ module.exports = (client, WL_Member) => {
       FunWS.members
         .fetch(WL_Member.id)
         .then(async (member) => {
-          await WL_Member.send(message);
+          await WL_Member.send(message).catch(console.error);
 
           member.roles.cache.each(async (role) => {
-            if (role.name != "@everyone" && role.name != "Админ сервера") {
+            if (role.name != "@everyone") {
               const WL_Role = getGuildRole(WL, role.name);
-              await WL_Member.roles.add(WL_Role);
+              if (WL_Role != undefined) {
+                await WL_Member.roles.add(WL_Role);
+              }
             }
           });
           const DB_user = await client.Users.findOne({ userId: WL_Member.id });
@@ -28,11 +30,16 @@ module.exports = (client, WL_Member) => {
               const newUser = new client.Users({
                 nickname: member.nickname,
                 userId: WL_Member.id,
+                rating1v1: 1200,
                 rating2v2: 1200,
                 rating3v3: 1200,
                 rank: "FreshBlood",
+                k1v1: 40,
                 k2v2: 40,
                 k3v3: 40,
+                defeats1v1: 0,
+                victories1v1: 0,
+                winrate1v1: 0,
                 defeats2v2: 0,
                 victories2v2: 0,
                 winrate2v2: 0,
@@ -42,7 +49,7 @@ module.exports = (client, WL_Member) => {
               });
               newUser.save();
             } else {
-              WL_Member.send(additionalMessage);
+              WL_Member.send(additionalMessage).catch(console.error);
             }
           }
           const FreshBloodRole = getGuildRole(WL, "FreshBlood");
@@ -55,7 +62,7 @@ module.exports = (client, WL_Member) => {
             `зашел челик, который не зареган на fanWs - ${WL_Member.user.username}`
           );
           if (error.message == "Unknown Member") {
-            WL_Member.send(additionalMessage);
+            WL_Member.send(additionalMessage).catch(console.error);
           }
         });
     }

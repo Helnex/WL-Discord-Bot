@@ -18,13 +18,13 @@ module.exports = {
     let message1Title = `top 50 players for weak`;
     let message1 = `${message1Title}
 ------------------------------------------------------------------
-#    Player          Rating  Games     Win       Lose      Winrate
+# Player               Rating      Games     Win  Lose   Winrate
 ------------------------------------------------------------------\n`;
 
     let message2Title = `top 50 players for all time`;
     let message2 = `${message2Title}
 ------------------------------------------------------------------
-#    Player          Rating  Games     Win       Lose      Winrate
+# Player          Rating  Games     Win       Lose      Winrate
 ------------------------------------------------------------------\n`;
     //2x2
     //battle logs from weak
@@ -100,7 +100,7 @@ module.exports = {
               winrate: Math.round(
                 (parseInt(firstWinnerVictories) /
                   (firstWinnerDefeats + firstWinnerVictories)) *
-                100
+                  100
               ),
             });
           }
@@ -121,7 +121,7 @@ module.exports = {
               winrate: Math.round(
                 (parseInt(secondWinnerVictories) /
                   (secondWinnerDefeats + secondWinnerVictories)) *
-                100
+                  100
               ),
             });
           }
@@ -142,10 +142,13 @@ module.exports = {
           const win = String(top50ForWeak[i].win);
           const lose = String(top50ForWeak[i].lose);
           const winrate = String(top50ForWeak[i].winrate);
-          message1 += `${i + 1}    ${userName + space.repeat(16 - userName.length)
-            }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${games + space.repeat(10 - games.length)
-            }${win + space.repeat(10 - win.length)}${lose + space.repeat(10 - lose.length)
-            }${winrate + "%"}\n`;
+          message1 += `${i + 1}    ${
+            userName + space.repeat(16 - userName.length)
+          }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${
+            games + space.repeat(10 - games.length)
+          }${win + space.repeat(10 - win.length)}${
+            lose + space.repeat(10 - lose.length)
+          }${winrate + "%"}\n`;
         }
       }
     });
@@ -217,7 +220,7 @@ module.exports = {
               winrate: Math.round(
                 (parseInt(firstWinnerVictories) /
                   (firstWinnerDefeats + firstWinnerVictories)) *
-                100
+                  100
               ),
             });
           }
@@ -238,7 +241,7 @@ module.exports = {
               winrate: Math.round(
                 (parseInt(secondWinnerVictories) /
                   (secondWinnerDefeats + secondWinnerVictories)) *
-                100
+                  100
               ),
             });
           }
@@ -260,10 +263,13 @@ module.exports = {
           const lose = String(top50ForMonth[i].lose);
           const winrate = String(top50ForMonth[i].winrate);
 
-          message2 += `${i + 1}    ${userName + space.repeat(16 - userName.length)
-            }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${games + space.repeat(10 - games.length)
-            }${win + space.repeat(10 - win.length)}${lose + space.repeat(10 - lose.length)
-            }${winrate + "%"}\n`;
+          message2 += `${i + 1}    ${
+            userName + space.repeat(16 - userName.length)
+          }${rating2v2 + space.repeat(6 - String(rating2v2).length)}  ${
+            games + space.repeat(10 - games.length)
+          }${win + space.repeat(10 - win.length)}${
+            lose + space.repeat(10 - lose.length)
+          }${winrate + "%"}\n`;
         }
       }
     });

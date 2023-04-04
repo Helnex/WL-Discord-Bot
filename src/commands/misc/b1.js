@@ -15,7 +15,7 @@ module.exports = {
     },
   ],
   //testOnly: true,
-  devOnly: true,
+  //devOnly: true,
   //deleted: boolean
   callback: async (client, interaction) => {
     await interaction.reply("В процессе...");
