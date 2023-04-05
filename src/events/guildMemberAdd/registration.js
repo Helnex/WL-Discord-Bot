@@ -10,23 +10,43 @@ module.exports = (client, WL_Member) => {
       const message = `
   Привет, ${WL_Member.user.username}! Ты попал на сервер Warspear Ladder. Здесь ты можешь принять участие в различных активностях, которые оргнанизуют такие же любители пвп, как и ты. Продвигайся по рейтингу, сражайся в турнирных или приватных боях, учавствуй в конкурсах, зарабатывай золото на ставках!
   Первым делом загляни в каналы "как начать", "правила" и "новости", чтобы подробнее узнать о сервере.`;
-      const additionalMessage = `Ты читаешь это сообщение, потому что не зарегистрирован в Ладдере. Чтобы сделать это, тебе нужно сперва зарегистрироваться на сервере Fan Warspear Online(сделать это можно в канале "авторизация") - https://discord.gg/fan-ws-ru. После чего, выйди из сервера Warspear Ladder и зайди в него снова, твой профиль будет создан автоматически. В противном случае, ты не сможешь пользоваться функционалом Ладдера. Если тебе что-то непонятно, задай вопрос в чате или лично Helnex#0201`;
+      const additionalMessage = `Ты читаешь это сообщение, потому что не зарегистрирован в Ладдере. Чтобы сделать это, тебе нужно сперва зарегистрироваться на сервере Fan Warspear Online(сделать это можно в канале "авторизация") - <https://discord.gg/fan-ws-ru>. После чего, выйди из сервера Warspear Ladder и зайди в него снова, твой профиль будет создан автоматически. В противном случае, ты не сможешь пользоваться функционалом Ладдера. Если тебе что-то непонятно, задай вопрос в чате или лично Helnex#0201`;
       FunWS.members
         .fetch(WL_Member.id)
         .then(async (member) => {
-          await WL_Member.send(message).catch(console.error);
+          if (member.nickname == null) {
+            await WL_Member.send(additionalMessage).catch((error) => {
+              client.channels
+                .fetch("941350867813171210") //пришедшие
+                .then((channel) => {
+                  channel.send(
+                    `Привет, <@${WL_Member.id}>. Из-за того, что у тебя закрыта личка, я не смог отправить тебе инструкцию по регистрации в Ладдере, поэтому ищи ее в канале *как-начать*.`
+                  );
+                  console.log(
+                    `Зашел челик у которого закрыт лс и он не зареган на fanWs - ${WL_Member.user.username}`
+                  );
+                })
+                .catch(console.log((error) => console.log(error)));
+            });
+          } else {
+            await WL_Member.send(message).catch((error) => {
+              console.log(
+                `Зашел челик у которого закрыт лс но он зареган на fanWs - ${WL_Member.user.username}`
+              );
+            });
 
-          member.roles.cache.each(async (role) => {
-            if (role.name != "@everyone") {
-              const WL_Role = getGuildRole(WL, role.name);
-              if (WL_Role != undefined) {
-                await WL_Member.roles.add(WL_Role);
+            member.roles.cache.each(async (role) => {
+              if (role.name != "@everyone") {
+                const WL_Role = getGuildRole(WL, role.name);
+                if (WL_Role != undefined) {
+                  await WL_Member.roles.add(WL_Role);
+                }
               }
-            }
-          });
-          const DB_user = await client.Users.findOne({ userId: WL_Member.id });
-          if (DB_user == null) {
-            if (member.nickname != null) {
+            });
+            const DB_user = await client.Users.findOne({
+              userId: WL_Member.id,
+            });
+            if (DB_user == null) {
               const newUser = new client.Users({
                 nickname: member.nickname,
                 userId: WL_Member.id,
@@ -48,21 +68,28 @@ module.exports = (client, WL_Member) => {
                 winrate3v3: 0,
               });
               newUser.save();
-            } else {
-              WL_Member.send(additionalMessage).catch(console.error);
             }
-          }
-          const FreshBloodRole = getGuildRole(WL, "FreshBlood");
+            const FreshBloodRole = getGuildRole(WL, "FreshBlood");
 
-          await WL_Member.roles.add(FreshBloodRole);
-          await WL_Member.setNickname(member.nickname);
+            await WL_Member.roles.add(FreshBloodRole);
+            await WL_Member.setNickname(member.nickname);
+          }
         })
         .catch((error) => {
           console.log(
             `зашел челик, который не зареган на fanWs - ${WL_Member.user.username}`
           );
           if (error.message == "Unknown Member") {
-            WL_Member.send(additionalMessage).catch(console.error);
+            WL_Member.send(additionalMessage).catch((error) => {
+              client.channels
+                .fetch("941350867813171210") //пришедшие
+                .then((channel) => {
+                  channel.send(
+                    `Привет, <@${WL_Member.id}>. Из-за того, что у тебя закрыта личка, я не смог отправить тебе инструкцию по регистрации в Ладдере, поэтому ищи ее в канале *как-начать*.`
+                  );
+                })
+                .catch(console.log((error) => console.log(error)));
+            });
           }
         });
     }
