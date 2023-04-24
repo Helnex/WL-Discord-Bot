@@ -72,7 +72,7 @@ module.exports = async (params, client, interaction) => {
     Winner +${pointsForWinner}: <@${opponent.userId}> (${
       opponentRating + pointsForWinner
     })
-    Looser ${pointsForLoser}: <@${author.userId}> (${
+Looser ${pointsForLoser}: <@${author.userId}> (${
       authorRating + pointsForLoser
     })`;
 
@@ -213,7 +213,7 @@ module.exports = async (params, client, interaction) => {
     Winner +${pointsForWinners}: <@${opponent1.userId}> (${
       opponent1Rating + pointsForWinners
     }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${
+Looser ${pointsForLosers}: <@${author.userId}> (${
       authorRating + pointsForLosers
     }), <@${teammate.userId}> (${teammateRating + pointsForLosers})
     `;
@@ -413,7 +413,7 @@ module.exports = async (params, client, interaction) => {
     }), <@${opponent2.userId}> (${opponent2Rating + pointsForWinners}),  <@${
       opponent2.userId
     }> (${opponent2Rating + pointsForWinners})
-    Looser ${pointsForLosers}: <@${author.userId}> (${
+Looser ${pointsForLosers}: <@${author.userId}> (${
       authorRating + pointsForLosers
     }), <@${teammate1.userId}> (${teammate1Rating + pointsForLosers}), <@${
       teammate2.userId

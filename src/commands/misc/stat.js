@@ -42,8 +42,8 @@ module.exports = {
       `;
       const fields = [
         { name: "1v1", value: embedContent1, inline: true },
-        { name: "2v2", value: embedContent1, inline: true },
-        { name: "3v3", value: embedContent2, inline: true },
+        { name: "2v2", value: embedContent2, inline: true },
+        { name: "3v3", value: embedContent3, inline: true },
       ];
       createEmbed(
         client,

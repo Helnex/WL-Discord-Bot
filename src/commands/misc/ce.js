@@ -48,7 +48,11 @@ module.exports = {
     const subtitle = interaction.options.data[1].value;
     const embedContent = interaction.options.data[2].value;
     const imageUrl = interaction.options.data[3]?.value;
-
+    // const embedTitle = `2x2 Match. Average: 1500`;
+    //     const embedContent = `
+    //     Winner +17: <@465474458635993099> (1298), <@465474458635993099> (1356)
+    // Looser -20: <@465474458635993099> (1234), <@465474458635993099> (1643)
+    //     `;
     const fields = [
       { name: " ", value: subtitle, inline: true },
       { name: " ", value: embedContent, inline: false },
