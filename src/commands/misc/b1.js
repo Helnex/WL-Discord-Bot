@@ -24,13 +24,16 @@ module.exports = {
 
     const author = await client.Users.findOne({ userId: authorId });
     const opponent = await client.Users.findOne({ userId: opponentId });
-
-    if (author != null && opponent != null) {
-      EloSystem({ authorId, opponentId }, client, interaction);
-    } else {
-      interaction.reply(
-        "Не удалось сохранить результат. Кто-то из участников не зарегистрирован и/или неправильно вызвана команда"
-      );
+    try {
+      if (author != null && opponent != null) {
+        EloSystem({ authorId, opponentId }, client, interaction);
+      } else {
+        await interaction.reply(
+          "Не удалось сохранить результат. Кто-то из участников не зарегистрирован и/или неправильно вызвана команда"
+        );
+      }
+    } catch (e) {
+      await interaction.editReply('Произошла ошибка. Скорее всего один из участников не зарегистрирован.')
     }
   },
 };
