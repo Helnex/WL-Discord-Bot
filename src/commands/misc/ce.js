@@ -13,7 +13,7 @@ const createEmbed = require("../../utils/createEmbed");
 
 module.exports = {
   name: "ce",
-  //deleted: true,
+  // deleted: true,
   description: "Создание эмбеда",
   options: [
     {

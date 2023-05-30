@@ -4,7 +4,7 @@ const isUserRegistered = require("../../utils/isUserRegistered");
 
 module.exports = {
   name: "b3",
-  //deleted: true,
+  // deleted: true,
   description: "регистрация прошедшего боя 3x3",
   options: [
     {

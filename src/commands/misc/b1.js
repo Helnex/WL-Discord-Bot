@@ -4,7 +4,7 @@ const EloSystem = require("../../utils/EloSystem");
 
 module.exports = {
   name: "b1",
-  //deleted: true,
+  // deleted: true,
   description: "регистрация прошедшего боя 1x1",
   options: [
     {
@@ -33,7 +33,22 @@ module.exports = {
         );
       }
     } catch (e) {
-      await interaction.editReply('Произошла ошибка. Скорее всего один из участников не зарегистрирован.')
+      await interaction.editReply(
+        "Произошла ошибка. Скорее всего один из участников не зарегистрирован."
+      );
+    }
+    try {
+      if (author != null && opponent != null) {
+        EloSystem({ authorId, opponentId }, client, interaction);
+      } else {
+        await interaction.reply(
+          "Не удалось сохранить результат. Кто-то из участников не зарегистрирован и/или неправильно вызвана команда"
+        );
+      }
+    } catch (e) {
+      await interaction.editReply(
+        "Произошла ошибка. Скорее всего один из участников не зарегистрирован."
+      );
     }
   },
 };

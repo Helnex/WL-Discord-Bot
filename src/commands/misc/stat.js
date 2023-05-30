@@ -3,7 +3,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
   name: "stat",
-  //deleted: true,
+  // deleted: true,
   description: "Статистика пользователя",
   //testOnly: true,
   //devOnly: true,

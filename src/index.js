@@ -5,6 +5,7 @@ const eventHandler = require("./handlers/eventHandler");
 //const { BattleLogsModel2v2 } = require("./models/2v2BattleLogsModel");
 const { UserModel } = require("./models/userModel");
 const keepAlive = require("../server");
+const { GuildMemberModel } = require("./models/guildMemberModel");
 mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
@@ -18,11 +19,14 @@ const client = new Client({
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildMessageReactions,
     GatewayIntentBits.GuildPresences,
   ],
+  partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
 eventHandler(client);
 client.Users = UserModel;
+client.GuildMembers = GuildMemberModel;
 //client.BattleLogs2v2 = BattleLogsModel2v2
 
 client.on("messageCreate", (message) => {

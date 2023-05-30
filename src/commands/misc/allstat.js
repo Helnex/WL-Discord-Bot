@@ -4,7 +4,7 @@ const { EmbedBuilder, codeBlock } = require("@discordjs/builders");
 
 module.exports = {
   name: "allstat",
-  //deleted: true,
+  // deleted: true,
   description: "Вся статистика на основе сохраненных боев",
   //testOnly: true,
   devOnly: true,
@@ -13,9 +13,9 @@ module.exports = {
     let message1Title = `top 50 players for all time`;
     let message1 = `
 ${message1Title}
----------------------------------------------------------------------------
+----------------------------------------------------------------------------
 #  Player                    Rating      Games      Win    Lose      Winrate
----------------------------------------------------------------------------\n`;
+----------------------------------------------------------------------------\n`;
     let m2 = ``;
     let m3 = ``;
 
@@ -47,7 +47,7 @@ ${message1Title}
           space.repeat(7 - String(users[i].victories1v1).length)
         }${
           users[i].defeats1v1 + space.repeat(9 - String(users[i].defeats1v1))
-        } ${winrate()}%\n`;
+        } ${space.repeat(4 - (String(winrate()) + "%").length)}${winrate()}%\n`;
 
         if ((message1 + text).length < 1900) {
           message1 += text;

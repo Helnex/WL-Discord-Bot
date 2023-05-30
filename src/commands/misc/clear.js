@@ -2,7 +2,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
   name: "clear",
-  //deleted: true,
+  // deleted: true,
   description: "Удаление сообщений",
   //testOnly: true,
   devOnly: true,

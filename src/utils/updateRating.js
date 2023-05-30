@@ -110,8 +110,9 @@ module.exports = async (
         looser,
         match
       );
-      GuildUser.roles.remove(oldRole);
-      GuildUser.roles.add(freshBloodRole);
+      GuildUser.roles.remove(oldRole).then((e) => {
+        GuildUser.roles.add(freshBloodRole);
+      });
     }
     if (maxRating >= 1600) {
       updateUser(client, id, newRating, oldRole, 40, winner, looser, match);
@@ -123,8 +124,9 @@ module.exports = async (
 
     if (maxRating < 2000) {
       updateUser(client, id, newRating, "Medium", 30, winner, looser, match);
-      GuildUser.roles.remove(oldRole);
-      GuildUser.roles.add(mediumRole);
+      GuildUser.roles.remove(oldRole).then((e) => {
+        GuildUser.roles.add(mediumRole);
+      });
     }
     if (maxRating >= 2000) {
       updateUser(client, id, newRating, oldRole, 30, winner, looser, match);
@@ -150,7 +152,8 @@ module.exports = async (
     const highSkillRole = getRole(interaction, "HighSkill");
     const oldRole = getRole(interaction, oldRank);
 
-    GuildUser.roles.remove(oldRole);
-    GuildUser.roles.add(highSkillRole);
+    GuildUser.roles.remove(oldRole).then((e) => {
+      GuildUser.roles.add(highSkillRole);
+    });
   }
 };

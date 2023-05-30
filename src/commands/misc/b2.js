@@ -4,7 +4,7 @@ const EloSystem = require("../../utils/EloSystem");
 
 module.exports = {
   name: "b2",
-  //deleted: true,
+  // deleted: true,
   description: "регистрация прошедшего боя 2x2",
   options: [
     {
@@ -30,7 +30,7 @@ module.exports = {
   //devOnly: true,
   //deleted: boolean
   callback: async (client, interaction) => {
-    await interaction.reply('В процессе...');
+    await interaction.reply("В процессе...");
     const authorId = interaction.member.id;
     const opponent1Id = interaction.options.data[0].user?.id;
     const opponent2Id = interaction.options.data[1].user?.id;

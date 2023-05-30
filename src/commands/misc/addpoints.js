@@ -2,7 +2,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
 const createEmbed = require("../../utils/createEmbed");
 module.exports = {
   name: "addpoints",
-  //deleted: true,
+  // deleted: true,
   description: "Добавление рейтинга",
   options: [
     {
