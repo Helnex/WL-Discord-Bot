@@ -28,9 +28,6 @@ module.exports = {
         "Произошла ошибка. Возможно, стоит попробовать позже."
       );
     }
-    await interaction.editReply(
-      "Произошла ошибка. Возможно, стоит попробовать позже."
-    );
     await interaction.editReply(`Был удален ${nickname}`);
   },
 };

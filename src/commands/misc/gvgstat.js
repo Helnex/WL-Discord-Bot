@@ -12,10 +12,10 @@ module.exports = {
   callback: async (client, interaction) => {
     await interaction.deferReply();
 
-    client.channels
+    await client.channels
       .fetch("1113141574474408027") //статистика за гвг
       .then(async (channel) => {
-        // channel.bulkDelete(10, true).catch(console.error);
+        channel.bulkDelete(5, true).catch(console.error);
         try {
           const dbUsers = await client.GuildMembers.find({});
           dbUsers.sort((a, b) => (a.nickname > b.nickname ? 1 : -1));
