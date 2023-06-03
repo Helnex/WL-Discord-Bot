@@ -27,7 +27,7 @@ module.exports = {
     const opponent = await client.Users.findOne({ userId: opponentId });
     try {
       if (author != null && opponent != null) {
-        EloSystem({ authorId, opponentId }, client, interaction);
+        await EloSystem({ authorId, opponentId }, client, interaction);
       } else {
         await interaction.editReply(
           "Не удалось сохранить результат. Кто-то из участников не зарегистрирован и/или неправильно вызвана команда"

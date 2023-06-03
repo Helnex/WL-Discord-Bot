@@ -1,5 +1,7 @@
 module.exports = async (client) => {
   console.log(`${client.user.tag} заработал`);
+  const Tkilla = client.guilds.cache.get("467176165027610634"); //ткила
+  const FunWS = client.guilds.cache.get("1006185918769672242");
 
   // dbUsers.sort((a, b) => (a.nickname > b.nickname ? 1 : -1));
   // console.log(dbUsers);
