@@ -84,7 +84,7 @@ Looser ${pointsForLoser}: <@${author.userId}> (${
       embedTitle,
       embedContent
     ).then(async (embed) => {
-      await interaction.followUp({
+      await interaction.editReply({
         embeds: [embed],
       });
 

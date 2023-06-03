@@ -18,7 +18,8 @@ module.exports = {
   //devOnly: true,
   //deleted: boolean
   callback: async (client, interaction) => {
-    await interaction.reply("В процессе...");
+    // await interaction.reply("В процессе...");
+    await interaction.deferReply();
     const authorId = interaction.member.id;
     const opponentId = interaction.options.data[0].user?.id;
 
@@ -28,20 +29,7 @@ module.exports = {
       if (author != null && opponent != null) {
         EloSystem({ authorId, opponentId }, client, interaction);
       } else {
-        await interaction.reply(
-          "Не удалось сохранить результат. Кто-то из участников не зарегистрирован и/или неправильно вызвана команда"
-        );
-      }
-    } catch (e) {
-      await interaction.editReply(
-        "Произошла ошибка. Скорее всего один из участников не зарегистрирован."
-      );
-    }
-    try {
-      if (author != null && opponent != null) {
-        EloSystem({ authorId, opponentId }, client, interaction);
-      } else {
-        await interaction.reply(
+        await interaction.editReply(
           "Не удалось сохранить результат. Кто-то из участников не зарегистрирован и/или неправильно вызвана команда"
         );
       }
