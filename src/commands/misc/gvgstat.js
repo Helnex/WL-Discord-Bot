@@ -15,7 +15,7 @@ module.exports = {
     await client.channels
       .fetch("1113141574474408027") //статистика за гвг
       .then(async (channel) => {
-        channel.bulkDelete(5, true).catch(console.error);
+        await channel.bulkDelete(5, true).catch(console.error);
         try {
           const dbUsers = await client.GuildMembers.find({});
           dbUsers.sort((a, b) => (a.nickname > b.nickname ? 1 : -1));
@@ -35,9 +35,9 @@ module.exports = {
             } else {
               res = "В основном без бафов либо с говнобафами, игнорит команды";
             }
-            const content = `${
-              member.nickname + space.repeat(10 - member.nickname.length)
-            }| ${space.repeat(10)}${member.absence}${space.repeat(
+            const content = `${member.nickname}${space.repeat(
+              10 - member.nickname.length
+            )}| ${space.repeat(10)}${member.absence}${space.repeat(
               11 - String(member.absence).length
             )}| ${res}${space.repeat(56 - res.length)} |\n`;
             if ((message + content).length < 2000) {
