@@ -23,13 +23,13 @@ module.exports = {
   description: "Отчет лидера пати за гвг",
   options: [
     {
-      name: "t1",
+      name: "первый_участник",
       description: "первый член группы",
       type: ApplicationCommandOptionType.Mentionable,
       required: true,
     },
     {
-      name: "e1",
+      name: "действия_первого",
       description: "эффективность на гвг",
       type: ApplicationCommandOptionType.Number,
       required: true,
@@ -37,13 +37,13 @@ module.exports = {
     },
 
     {
-      name: "t2",
+      name: "второй_участник",
       description: "второй член группы",
       type: ApplicationCommandOptionType.Mentionable,
       required: true,
     },
     {
-      name: "e2",
+      name: "действия_второго",
       description: "эффективность на гвг",
       type: ApplicationCommandOptionType.Number,
       required: true,
@@ -51,13 +51,13 @@ module.exports = {
     },
 
     {
-      name: "t3",
+      name: "третий_участник",
       description: "второй член группы",
       type: ApplicationCommandOptionType.Mentionable,
       required: true,
     },
     {
-      name: "e3",
+      name: "действия_третьего",
       description: "эффективность на гвг",
       type: ApplicationCommandOptionType.Number,
       required: true,
@@ -65,13 +65,13 @@ module.exports = {
     },
 
     {
-      name: "t4",
+      name: "четвертый_участник",
       description: "третий член группы",
       type: ApplicationCommandOptionType.Mentionable,
       required: true,
     },
     {
-      name: "e4",
+      name: "действия_четвертого",
       description: "эффективность на гвг",
       type: ApplicationCommandOptionType.Number,
       required: true,
